@@ -29,7 +29,11 @@ class Role extends Model
      */
     public function givePermissionTo($permission)
     {
-        $this->permissions()->save($permission);
+        if(\is_string($permission)){
+            $permission = Permission::whereName($permission)->firstOrFail();
+        }
+
+        $this->permissions()->syncWithoutDetaching($permission);
     }
     //user->roles()
 }

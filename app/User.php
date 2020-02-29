@@ -50,7 +50,11 @@ class User extends Authenticatable
      */
     public function assignRole($role)
     {
-        $this->roles()->save($role);
+        if(is_string($role)){
+            $role = Role::whereName($role)->firstOrFail();
+        }
+
+        $this->roles()->syncWithoutDetaching($role);
     }
 
     /**
