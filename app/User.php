@@ -36,4 +36,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Create new public function
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role')->withTimestamps();
+    }
+
+    /**
+     * Create new public function
+     */
+    public function assignRole($role)
+    {
+        $this->roles()->save($role);
+    }
+
+    /**
+     * Create new public function
+     */
+    public function permissions()
+    {
+        return $this->roles->map->permissions->flatten();
+    }
 }
